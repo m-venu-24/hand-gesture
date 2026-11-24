@@ -259,7 +259,7 @@ async function startCamera() {
     await video.play();
     document.querySelector("#placeholder").hidden = true;
     document.querySelector("#modelPill").textContent = "ON-DEVICE MODEL";
-    document.querySelector("#cameraHelp").textContent = "Hold steady for about ¼ second. Relax your hand briefly to re-arm.";
+    document.querySelector("#cameraHelp").textContent = "Center your face and one hand in frame. Hold steady for ¼ second; relax briefly to re-arm.";
     startBtn.textContent = "Camera running";
     stopBtn.disabled = false;
     setCameraStatus("Live", true);
