@@ -1,35 +1,74 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#080b12">
-<meta name="description" content="GestureSlide turns webcam hand gestures into presentation controls on Windows.">
-<title>GestureSlide — Present hands-free</title>
-<style>
-:root{color-scheme:dark;--bg:#080b12;--line:#202a3b;--white:#f7f9ff;--cyan:#72e7ed;--violet:#a99aff}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 5%,#18314b 0,transparent 35%),radial-gradient(ellipse at 15% 40%,#26204a 0,transparent 33%),var(--bg);color:var(--white);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
-a{color:inherit}.wrap{max-width:1120px;margin:auto;padding:28px 26px 60px}.nav{display:flex;justify-content:space-between;align-items:center}.brand{display:flex;align-items:center;gap:11px;font-weight:750;letter-spacing:-.03em}.logo{width:38px;height:38px;border:1px solid #526176;border-radius:12px;display:grid;place-items:center;background:#111a2a;color:var(--cyan);font-size:21px}.nav a{color:#a2aec2;text-decoration:none;font-size:14px}
-.hero{padding:90px 0 54px;max-width:800px}.tag{display:inline-flex;gap:8px;align-items:center;border:1px solid #2a4652;background:#102129;color:#b7f5f5;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:650;letter-spacing:.04em}.dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan)}h1{font-size:clamp(46px,8vw,84px);line-height:.99;letter-spacing:-.075em;margin:23px 0 20px;max-width:800px}.gradient{background:linear-gradient(100deg,#fff 18%,var(--cyan) 62%,var(--violet));color:transparent;background-clip:text}.lead{font-size:18px;line-height:1.7;color:#b4bed0;max-width:650px;margin:0}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}.button{display:inline-flex;align-items:center;justify-content:center;gap:9px;text-decoration:none;border-radius:12px;padding:13px 17px;font-weight:700;font-size:14px;transition:transform .15s}.button:hover{transform:translateY(-2px)}.primary{background:var(--cyan);color:#071114;box-shadow:0 8px 30px #72e7ed24}.secondary{border:1px solid #354055;background:#111725;color:#e9eef8}.note{font-size:12px;color:#8491a7;margin-top:13px}
-.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}.card{border:1px solid var(--line);background:linear-gradient(145deg,#111827ee,#0d121cee);border-radius:18px;padding:24px}.card h2{font-size:17px;margin:0 0 18px;letter-spacing:-.025em}.gestures{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.gesture{border:1px solid #242e40;background:#0d1320;border-radius:13px;padding:14px 11px;min-height:112px}.emoji{font-size:25px}.gesture strong{display:block;font-size:13px;margin-top:12px}.gesture small{display:block;color:#8996aa;margin-top:4px;font-size:11px}.feature-list{display:grid;gap:15px}.feature{display:flex;gap:12px;align-items:flex-start}.icon{flex:none;width:31px;height:31px;border-radius:9px;background:#1b2535;display:grid;place-items:center;color:var(--cyan);font-size:14px}.feature strong{font-size:13px}.feature p{font-size:12px;line-height:1.55;color:#9ba7ba;margin:4px 0 0}.footer{border-top:1px solid #1c2533;margin-top:20px;padding-top:18px;display:flex;justify-content:space-between;gap:18px;color:#7f8ba0;font-size:12px}.footer a{color:#a9b5c8;text-decoration:none}
-@media(max-width:760px){.hero{padding:68px 0 38px}.grid{grid-template-columns:1fr}.gestures{grid-template-columns:repeat(2,1fr)}.footer{flex-direction:column}.wrap{padding-inline:18px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080b12">
+  <meta name="description" content="A live, browser-based hand gesture camera that controls your slides.">
+  <title>GestureSlide — Live gesture presenter</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://storage.googleapis.com" crossorigin>
+  <style>
+    :root{color-scheme:dark;--bg:#080b12;--panel:#101624;--line:#232d3f;--muted:#94a2b8;--white:#f5f7fb;--cyan:#72e7ed;--violet:#aa9cff;--green:#65e6b0;--red:#ff6e83}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 70% 0%,#18314b 0,transparent 34%),radial-gradient(ellipse at 2% 37%,#27204b 0,transparent 32%),var(--bg);color:var(--white);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button{font:inherit;color:inherit}
+    .shell{max-width:1440px;margin:auto;padding:22px 30px 36px}.topbar{height:48px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:760;letter-spacing:-.03em}.brand-mark{width:36px;height:36px;display:grid;place-items:center;border-radius:11px;border:1px solid #344056;background:#141c2a;font-size:20px}.top-right{display:flex;align-items:center;gap:9px;color:#98a5ba;font-size:12px}.live-dot{height:7px;width:7px;background:#607086;border-radius:99px}.live-dot.on{background:var(--green);box-shadow:0 0 12px #65e6b088}
+    .heading{margin:34px 0 22px;display:flex;justify-content:space-between;align-items:end;gap:25px}.eyebrow{font-size:11px;font-weight:750;letter-spacing:.16em;color:var(--cyan)}h1{font-size:clamp(28px,4vw,43px);letter-spacing:-.06em;line-height:1.08;margin:9px 0 8px}.subhead{margin:0;color:#aab5c6;font-size:14px;line-height:1.6}.private{display:flex;align-items:center;gap:8px;color:#91a1b6;font-size:12px;white-space:nowrap;padding-bottom:7px}.private svg{color:var(--green)}
+    .workspace{display:grid;grid-template-columns:minmax(340px,.95fr) minmax(460px,1.25fr);gap:16px;align-items:stretch}.panel{border:1px solid var(--line);background:linear-gradient(145deg,#121927f5,#0c111bf5);border-radius:18px;overflow:hidden;box-shadow:0 18px 60px #0002}.panel-head{padding:16px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #222c3c}.panel-title{font-size:13px;font-weight:700}.status{font-size:11px;color:#94a2b8;display:flex;gap:7px;align-items:center}.status .live-dot{height:6px;width:6px}
+    .camera-wrap{position:relative;background:#080b11;aspect-ratio:4/3;overflow:hidden}.camera-wrap video,.camera-wrap canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}.camera-wrap canvas{pointer-events:none}.placeholder{position:absolute;inset:0;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 55%,#192538,#0a0d14 65%);text-align:center;padding:24px}.placeholder-content{max-width:275px}.cam-icon{width:58px;height:58px;margin:0 auto 15px;display:grid;place-items:center;border-radius:18px;background:#172335;border:1px solid #304057;color:var(--cyan)}.placeholder h2{font-size:16px;margin:0 0 7px}.placeholder p{font-size:12px;line-height:1.6;color:#8f9db2;margin:0}.camera-overlay{position:absolute;left:12px;right:12px;top:12px;display:flex;justify-content:space-between;pointer-events:none}.pill{background:#080b12b8;backdrop-filter:blur(10px);border:1px solid #ffffff18;padding:6px 9px;border-radius:99px;font-size:10px;color:#d9e3f0}.pill.accent{color:#b6f4f3}.camera-bottom{position:absolute;bottom:12px;left:12px;right:12px;display:flex;justify-content:space-between;align-items:end;pointer-events:none}.recognition{background:#080b12d9;border:1px solid #ffffff1a;backdrop-filter:blur(10px);border-radius:12px;padding:9px 12px;min-width:145px}.recognition small{display:block;text-transform:uppercase;letter-spacing:.12em;color:#8c9bb1;font-size:9px}.recognition strong{font-size:15px;margin-top:3px;display:block}.confidence{font-size:10px;color:#c6d3e4;background:#080b12d9;padding:7px 10px;border-radius:99px}
+    .camera-controls{padding:14px 16px;display:flex;gap:9px;align-items:center;border-top:1px solid #202a3a}.btn{border:1px solid #344155;background:#131b28;border-radius:10px;padding:10px 13px;font-size:12px;font-weight:680;cursor:pointer;transition:.15s}.btn:hover{transform:translateY(-1px);border-color:#63758d}.btn.primary{background:var(--cyan);color:#071114;border-color:var(--cyan)}.btn.primary:hover{background:#9af2f4}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}.helper{font-size:10px;line-height:1.45;color:#8492a7;margin-left:auto;text-align:right;max-width:170px}
+    .slide-stage{padding:18px}.slide{aspect-ratio:16/9;position:relative;overflow:hidden;border:1px solid #27364a;border-radius:13px;background:radial-gradient(ellipse at 75% 30%,#354974 0,transparent 38%),radial-gradient(ellipse at 12% 100%,#3d296a 0,transparent 38%),linear-gradient(135deg,#131f32,#111523);display:flex;align-items:center;padding:9% 10%;transition:background .25s}.slide::before{content:"";position:absolute;width:290px;height:290px;right:-85px;bottom:-155px;border:1px solid #a8d8f533;border-radius:50%;box-shadow:0 0 0 28px #a8d8f50a,0 0 0 57px #a8d8f508}.slide-content{position:relative;z-index:1;max-width:78%}.slide-kicker{color:var(--cyan);font-size:10px;font-weight:750;letter-spacing:.18em;text-transform:uppercase}.slide h2{font-size:clamp(24px,4vw,48px);letter-spacing:-.06em;line-height:1.04;margin:13px 0}.slide p{color:#c0cde0;font-size:clamp(11px,1.5vw,15px);line-height:1.65;margin:0;max-width:470px}.slide-number{position:absolute;right:20px;bottom:16px;color:#a6b4c7;font-size:11px;font-variant-numeric:tabular-nums}.blackout{background:#000!important}.blackout .slide-content,.blackout .slide-number{opacity:0}
+    .deck-controls{display:flex;align-items:center;justify-content:space-between;margin-top:13px}.deck-left,.deck-right{display:flex;align-items:center;gap:8px}.icon-btn{width:36px;height:34px;border:1px solid #303c50;border-radius:9px;background:#131b28;cursor:pointer;font-size:16px}.icon-btn:hover{border-color:#647891}.counter{font-size:11px;color:#9eabc0;min-width:48px;text-align:center;font-variant-numeric:tabular-nums}.control-label{font-size:10px;color:#8290a5;margin-right:2px}
+    .gesture-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}.gesture-card{border:1px solid #252f40;background:#101722;border-radius:11px;padding:10px 10px 9px}.gesture-card.active{border-color:#62d8d8;background:#11242b;box-shadow:0 0 0 1px #62d8d822}.gesture-emoji{font-size:20px}.gesture-card strong{display:block;font-size:10px;margin-top:5px}.gesture-card small{display:block;color:#8492a7;font-size:9px;margin-top:2px}
+    .bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.info-card{padding:16px 18px}.info-title{font-size:12px;font-weight:720;margin:0 0 12px}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.step{display:flex;gap:8px;color:#9ba8bb;font-size:10px;line-height:1.45}.step-num{flex:none;width:19px;height:19px;border-radius:7px;background:#1a2738;color:var(--cyan);display:grid;place-items:center;font-size:9px;font-weight:800}.mapping{display:flex;flex-wrap:wrap;gap:7px}.map-item{font-size:10px;color:#9facbf;border:1px solid #283347;padding:6px 8px;border-radius:8px;background:#0e1420}.map-item b{color:#e8eef7;font-weight:650}
+    .toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);padding:11px 15px;border:1px solid #3b4b60;background:#111a29;border-radius:11px;color:#e4edf7;font-size:12px;opacity:0;pointer-events:none;transition:.2s;z-index:4;box-shadow:0 12px 36px #0006}.toast.show{opacity:1;transform:translate(-50%,0)}.error{color:#ff9ca9}.footnote{text-align:center;margin-top:18px;font-size:10px;color:#68768c}
+    @media(max-width:920px){.workspace{grid-template-columns:1fr 1fr}.bottom-grid{grid-template-columns:1fr}.heading{align-items:flex-start;flex-direction:column;gap:12px}.private{padding:0}}@media(max-width:680px){.shell{padding:14px 14px 26px}.workspace{grid-template-columns:1fr}.heading{margin:26px 0 18px}.gesture-grid{gap:6px}.gesture-card{padding:8px}.steps{grid-template-columns:1fr}.helper{display:none}.slide-stage{padding:12px}.slide h2{font-size:32px}.slide p{font-size:12px}}
+  </style>
 </head>
-<body><main class="wrap">
-<nav class="nav" aria-label="Main navigation"><div class="brand"><span class="logo" aria-hidden="true">✋</span>GestureSlide</div><a href="https://github.com/m-venu-24/hand-gesture">View source ↗</a></nav>
-<section class="hero"><span class="tag"><span class="dot"></span> WEBCAM-POWERED · WINDOWS DESKTOP</span>
-<h1>Present with<br><span class="gradient">a wave of your hand.</span></h1>
-<p class="lead">GestureSlide turns simple hand gestures into presentation controls. Keep your flow, move naturally, and let the camera handle the clicks.</p>
-<div class="actions"><a class="button primary" href="https://github.com/m-venu-24/hand-gesture/raw/refs/heads/main/release/GestureSlide-Windows-source.zip">↓ &nbsp;Download for Windows</a><a class="button secondary" href="https://github.com/m-venu-24/hand-gesture">Explore on GitHub ↗</a></div>
-<p class="note">Windows source bundle · Python environment setup included · Webcam required</p></section>
-<section class="grid" aria-label="Features">
-<article class="card"><h2>Four gestures. Full control.</h2><div class="gestures">
-<div class="gesture"><span class="emoji">🖐️</span><strong>Open palm</strong><small>Next slide</small></div><div class="gesture"><span class="emoji">✊</span><strong>Closed fist</strong><small>Previous slide</small></div><div class="gesture"><span class="emoji">👍</span><strong>Thumbs up</strong><small>Start slideshow</small></div><div class="gesture"><span class="emoji">✌️</span><strong>Peace sign</strong><small>Blank screen</small></div>
-</div></article>
-<article class="card"><h2>Built for a confident demo</h2><div class="feature-list">
-<div class="feature"><span class="icon">◉</span><div><strong>Live camera HUD</strong><p>See detected gestures, confidence, readiness, and session time while you present.</p></div></div>
-<div class="feature"><span class="icon">⌖</span><div><strong>Presenter safety</strong><p>Window guard and re-arm logic help prevent accidental slide skips.</p></div></div>
-<div class="feature"><span class="icon">↗</span><div><strong>More ways to move</strong><p>Optional air-swipe navigation and a guarded hand pointer are included.</p></div></div>
-</div></article></section>
-<footer class="footer"><span>GestureSlide is a Windows desktop app. This site hosts project information and the download.</span><span>Made by <a href="https://github.com/m-venu-24">@m-venu-24</a></span></footer>
-</main></body></html>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">✋</span>GestureSlide <span style="color:#75839a;font-weight:500">/ Live presenter</span></div>
+      <div class="top-right"><span id="liveDot" class="live-dot"></span><span id="topStatus">Camera off</span></div>
+    </header>
+    <section class="heading">
+      <div><div class="eyebrow">HANDS-FREE PRESENTING</div><h1>Your gestures. Your slides. Live.</h1><p class="subhead">Start the camera, hold a gesture for a moment, and control this in-browser demo deck in real time.</p></div>
+      <div class="private"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg>Recognition runs on your device. Camera stays in this browser.</div>
+    </section>
+    <section class="workspace">
+      <article class="panel" aria-label="Live gesture camera">
+        <div class="panel-head"><span class="panel-title">Live camera</span><span class="status"><i id="cameraDot" class="live-dot"></i><span id="cameraStatus">Not started</span></span></div>
+        <div class="camera-wrap" id="cameraWrap">
+          <video id="webcam" playsinline muted aria-label="Live webcam preview"></video><canvas id="overlay"></canvas>
+          <div class="placeholder" id="placeholder"><div class="placeholder-content"><div class="cam-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3z"/></svg></div><h2>Your camera preview appears here</h2><p>Camera access starts only after you press the button below. No frames are sent to a server.</p></div></div>
+          <div class="camera-overlay"><span class="pill accent" id="modelPill">AI model ready to load</span><span class="pill" id="handPill">No hand</span></div>
+          <div class="camera-bottom"><div class="recognition"><small>Current gesture</small><strong id="gestureName">Waiting for camera</strong></div><span class="confidence" id="confidence">—</span></div>
+        </div>
+        <div class="camera-controls"><button class="btn primary" id="startBtn">Start camera</button><button class="btn" id="stopBtn" disabled>Stop</button><span class="helper" id="cameraHelp">Use HTTPS or localhost and allow camera access in your browser.</span></div>
+      </article>
+      <article class="panel" aria-label="Gesture-controlled slide deck">
+        <div class="panel-head"><span class="panel-title">Presentation preview</span><span class="status"><i class="live-dot on"></i><span id="deckStatus">Ready to present</span></span></div>
+        <div class="slide-stage">
+          <div class="slide" id="slide">
+            <div class="slide-content"><div class="slide-kicker" id="slideKicker">GestureSlide · Live demo</div><h2 id="slideTitle">Let your hands<br>lead the way.</h2><p id="slideBody">Navigate a presentation naturally. The camera recognizes your hand and the controls respond right here in the browser.</p></div>
+            <span class="slide-number" id="slideNumber">01 / 04</span>
+          </div>
+          <div class="deck-controls"><div class="deck-left"><button class="icon-btn" id="prevBtn" aria-label="Previous slide">←</button><button class="icon-btn" id="nextBtn" aria-label="Next slide">→</button><span class="counter" id="counter">1 / 4</span></div><div class="deck-right"><span class="control-label">MANUAL CONTROLS</span><button class="btn" id="presentBtn">Start show</button></div></div>
+          <div class="gesture-grid" aria-label="Gesture mappings">
+            <div class="gesture-card" data-gesture="Open_Palm"><span class="gesture-emoji">🖐️</span><strong>Open palm</strong><small>Next slide</small></div>
+            <div class="gesture-card" data-gesture="Closed_Fist"><span class="gesture-emoji">✊</span><strong>Closed fist</strong><small>Previous</small></div>
+            <div class="gesture-card" data-gesture="Thumb_Up"><span class="gesture-emoji">👍</span><strong>Thumbs up</strong><small>Start / end show</small></div>
+            <div class="gesture-card" data-gesture="Victory"><span class="gesture-emoji">✌️</span><strong>Peace sign</strong><small>Blackout screen</small></div>
+          </div>
+        </div>
+      </article>
+    </section>
+    <section class="bottom-grid">
+      <article class="panel info-card"><h2 class="info-title">Get started in three steps</h2><div class="steps"><div class="step"><span class="step-num">1</span><span>Press <b>Start camera</b> and allow webcam access.</span></div><div class="step"><span class="step-num">2</span><span>Show one gesture clearly in frame.</span></div><div class="step"><span class="step-num">3</span><span>Hold steady briefly; the slide responds.</span></div></div></article>
+      <article class="panel info-card"><h2 class="info-title">Gesture controls</h2><div class="mapping"><span class="map-item"><b>🖐️ Palm</b> → Next</span><span class="map-item"><b>✊ Fist</b> → Previous</span><span class="map-item"><b>👍 Thumbs up</b> → Start / end</span><span class="map-item"><b>✌️ Victory</b> → Blackout</span></div></article>
+    </section>
+    <p class="footnote">Camera and hand recognition run locally in your browser. This demo controls its own slides; it does not control PowerPoint or upload camera video.</p>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
