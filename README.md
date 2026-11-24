@@ -18,7 +18,7 @@ MediaPipe only extracts landmarks. The trainable deep-learning model is the Kera
 ```
 GestureSlide/
 |-- data/gestures.csv        # created by collect_data.py
-|-- model/                   # pretrained .task + optional trained model, labels, metrics, plots
+|-- model/                   # gestures.keras, labels.json, metrics.json, plots
 |-- logs/                    # session_*.csv and session_*.json written by the live app
 |-- config.py                # paths, gesture classes, key mapping, defaults
 |-- features.py              # landmark normalisation + augmentation (shared)
@@ -64,4 +64,3 @@ GestureSlide/
 - Do not quote an accuracy before running training on your own data.
 - PyAutoGUI fail-safe stays on: slam the mouse into a screen corner to abort key sending.
 - Keep a backup screen recording of the demo in case classroom webcam/projector misbehaves.
-
