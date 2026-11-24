@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b12">
+<meta name="description" content="GestureSlide turns webcam hand gestures into presentation controls on Windows.">
+<title>GestureSlide — Present hands-free</title>
+<style>
+:root{color-scheme:dark;--bg:#080b12;--line:#202a3b;--white:#f7f9ff;--cyan:#72e7ed;--violet:#a99aff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 5%,#18314b 0,transparent 35%),radial-gradient(ellipse at 15% 40%,#26204a 0,transparent 33%),var(--bg);color:var(--white);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+a{color:inherit}.wrap{max-width:1120px;margin:auto;padding:28px 26px 60px}.nav{display:flex;justify-content:space-between;align-items:center}.brand{display:flex;align-items:center;gap:11px;font-weight:750;letter-spacing:-.03em}.logo{width:38px;height:38px;border:1px solid #526176;border-radius:12px;display:grid;place-items:center;background:#111a2a;color:var(--cyan);font-size:21px}.nav a{color:#a2aec2;text-decoration:none;font-size:14px}
+.hero{padding:90px 0 54px;max-width:800px}.tag{display:inline-flex;gap:8px;align-items:center;border:1px solid #2a4652;background:#102129;color:#b7f5f5;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:650;letter-spacing:.04em}.dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan)}h1{font-size:clamp(46px,8vw,84px);line-height:.99;letter-spacing:-.075em;margin:23px 0 20px;max-width:800px}.gradient{background:linear-gradient(100deg,#fff 18%,var(--cyan) 62%,var(--violet));color:transparent;background-clip:text}.lead{font-size:18px;line-height:1.7;color:#b4bed0;max-width:650px;margin:0}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}.button{display:inline-flex;align-items:center;justify-content:center;gap:9px;text-decoration:none;border-radius:12px;padding:13px 17px;font-weight:700;font-size:14px;transition:transform .15s}.button:hover{transform:translateY(-2px)}.primary{background:var(--cyan);color:#071114;box-shadow:0 8px 30px #72e7ed24}.secondary{border:1px solid #354055;background:#111725;color:#e9eef8}.note{font-size:12px;color:#8491a7;margin-top:13px}
+.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}.card{border:1px solid var(--line);background:linear-gradient(145deg,#111827ee,#0d121cee);border-radius:18px;padding:24px}.card h2{font-size:17px;margin:0 0 18px;letter-spacing:-.025em}.gestures{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.gesture{border:1px solid #242e40;background:#0d1320;border-radius:13px;padding:14px 11px;min-height:112px}.emoji{font-size:25px}.gesture strong{display:block;font-size:13px;margin-top:12px}.gesture small{display:block;color:#8996aa;margin-top:4px;font-size:11px}.feature-list{display:grid;gap:15px}.feature{display:flex;gap:12px;align-items:flex-start}.icon{flex:none;width:31px;height:31px;border-radius:9px;background:#1b2535;display:grid;place-items:center;color:var(--cyan);font-size:14px}.feature strong{font-size:13px}.feature p{font-size:12px;line-height:1.55;color:#9ba7ba;margin:4px 0 0}.footer{border-top:1px solid #1c2533;margin-top:20px;padding-top:18px;display:flex;justify-content:space-between;gap:18px;color:#7f8ba0;font-size:12px}.footer a{color:#a9b5c8;text-decoration:none}
+@media(max-width:760px){.hero{padding:68px 0 38px}.grid{grid-template-columns:1fr}.gestures{grid-template-columns:repeat(2,1fr)}.footer{flex-direction:column}.wrap{padding-inline:18px}}
+</style>
+</head>
+<body><main class="wrap">
+<nav class="nav" aria-label="Main navigation"><div class="brand"><span class="logo" aria-hidden="true">✋</span>GestureSlide</div><a href="https://github.com/m-venu-24/hand-gesture">View source ↗</a></nav>
+<section class="hero"><span class="tag"><span class="dot"></span> WEBCAM-POWERED · WINDOWS DESKTOP</span>
+<h1>Present with<br><span class="gradient">a wave of your hand.</span></h1>
+<p class="lead">GestureSlide turns simple hand gestures into presentation controls. Keep your flow, move naturally, and let the camera handle the clicks.</p>
+<div class="actions"><a class="button primary" href="https://github.com/m-venu-24/hand-gesture/raw/refs/heads/main/release/GestureSlide-Windows-source.zip">↓ &nbsp;Download for Windows</a><a class="button secondary" href="https://github.com/m-venu-24/hand-gesture">Explore on GitHub ↗</a></div>
+<p class="note">Windows source bundle · Python environment setup included · Webcam required</p></section>
+<section class="grid" aria-label="Features">
+<article class="card"><h2>Four gestures. Full control.</h2><div class="gestures">
+<div class="gesture"><span class="emoji">🖐️</span><strong>Open palm</strong><small>Next slide</small></div><div class="gesture"><span class="emoji">✊</span><strong>Closed fist</strong><small>Previous slide</small></div><div class="gesture"><span class="emoji">👍</span><strong>Thumbs up</strong><small>Start slideshow</small></div><div class="gesture"><span class="emoji">✌️</span><strong>Peace sign</strong><small>Blank screen</small></div>
+</div></article>
+<article class="card"><h2>Built for a confident demo</h2><div class="feature-list">
+<div class="feature"><span class="icon">◉</span><div><strong>Live camera HUD</strong><p>See detected gestures, confidence, readiness, and session time while you present.</p></div></div>
+<div class="feature"><span class="icon">⌖</span><div><strong>Presenter safety</strong><p>Window guard and re-arm logic help prevent accidental slide skips.</p></div></div>
+<div class="feature"><span class="icon">↗</span><div><strong>More ways to move</strong><p>Optional air-swipe navigation and a guarded hand pointer are included.</p></div></div>
+</div></article></section>
+<footer class="footer"><span>GestureSlide is a Windows desktop app. This site hosts project information and the download.</span><span>Made by <a href="https://github.com/m-venu-24">@m-venu-24</a></span></footer>
+</main></body></html>
