@@ -94,7 +94,7 @@ function showGesture(name, score, handedness) {
   document.querySelector("#confidence").textContent = name ? `${Math.round(score * 100)}% confidence` : "—";
   document.querySelector("#handPill").textContent = name ? `Hand detected${handedness ? ` · ${handedness}` : ""}` : "No hand";
   document.querySelectorAll(".gesture-card").forEach((card) => {
-    card.classList.toggle("active", card.dataset.gesture === name);
+    card.classList.toggle("active", card.dataset.gestures?.split(" ").includes(name));
   });
 }
 
@@ -106,6 +106,7 @@ function fireGesture(name) {
   armed = false;
   switch (name) {
     case "Open_Palm":
+    case "Pointing_Up":
       if (slideIndex < slides.length - 1) {
         goToSlide(slideIndex + 1);
         notify("Next slide");
@@ -168,7 +169,7 @@ function updateCandidate(name) {
     candidateFrames = 0;
     currentCandidate = "";
     neutralFrames += 1;
-    if (neutralFrames >= 4) {
+    if (neutralFrames >= 2) {
       armed = true;
       lastFiredGesture = "";
     }
@@ -180,7 +181,7 @@ function updateCandidate(name) {
     currentCandidate = name;
     candidateFrames = 1;
   }
-  if (candidateFrames >= 6 && (armed || name !== lastFiredGesture)) fireGesture(name);
+  if (candidateFrames >= 4 && (armed || name !== lastFiredGesture)) fireGesture(name);
 }
 
 function renderLoop(id) {
@@ -195,7 +196,8 @@ function renderLoop(id) {
     const result = recognizer.recognizeForVideo(video, now);
     const categories = result.gestures?.[0] || [];
     const best = categories[0];
-    const name = best && best.categoryName !== "None" && best.score >= 0.68 ? best.categoryName : "";
+    const threshold = best?.categoryName === "Open_Palm" || best?.categoryName === "Pointing_Up" ? 0.48 : 0.58;
+    const name = best && best.categoryName !== "None" && best.score >= threshold ? best.categoryName : "";
     const handedness = result.handednesses?.[0]?.[0]?.categoryName || "";
     showGesture(name, best?.score || 0, handedness);
     drawLandmarks(result.landmarks || []);
@@ -219,9 +221,9 @@ async function createRecognizer() {
     baseOptions: { modelAssetPath: MODEL_URL, delegate: "GPU" },
     runningMode: "VIDEO",
     numHands: 1,
-    minHandDetectionConfidence: 0.55,
-    minHandPresenceConfidence: 0.55,
-    minTrackingConfidence: 0.5,
+    minHandDetectionConfidence: 0.48,
+    minHandPresenceConfidence: 0.48,
+    minTrackingConfidence: 0.45,
   };
   try {
     return await GestureRecognizer.createFromOptions(vision, options);
@@ -257,7 +259,7 @@ async function startCamera() {
     await video.play();
     document.querySelector("#placeholder").hidden = true;
     document.querySelector("#modelPill").textContent = "ON-DEVICE MODEL";
-    document.querySelector("#cameraHelp").textContent = "Hold a gesture steady to trigger it once. Drop your hand to re-arm.";
+    document.querySelector("#cameraHelp").textContent = "Hold steady for about ¼ second. Relax your hand briefly to re-arm.";
     startBtn.textContent = "Camera running";
     stopBtn.disabled = false;
     setCameraStatus("Live", true);
